@@ -27,17 +27,13 @@ public class EtudiantServiceImpMockTest {
         Option opGamix = Option.GAMIX;
         Etudiant etudiant = new Etudiant("Nasri", "Skander", opGamix);
         Departement dep = new Departement("depGamix");
-
         Mockito.when(etudiantService.addEtudiant(etudiant)).thenReturn(etudiant);
         Mockito.when(departementService.addDepartement(dep)).thenReturn(dep);
         Mockito.when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
-
         Etudiant savedEtudiant = etudiantService.addEtudiant(etudiant);
         Departement depSaved = departementService.addDepartement(dep);
-
         savedEtudiant.setDepartement(depSaved);
         savedEtudiant = etudiantRepository.save(savedEtudiant);
-
         Assertions.assertNotNull(savedEtudiant.getDepartement(), "The student should be assigned to a department.");
         Assertions.assertEquals(depSaved.getIdDepart(), savedEtudiant.getDepartement().getIdDepart());
         departementService.deleteDepartement(depSaved.getIdDepart());

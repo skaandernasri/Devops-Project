@@ -29,17 +29,15 @@ public class UniversiteServiceImpMockTest {
     @Test
     public void assignUniversiteToDepartement() {
 
-        Universite universite = new Universite("esprit");
         Universite savedUniversite = new Universite("esprit"); // Dummy object to return
-        Departement dep = new Departement("depGamix");
         Departement depSaved = new Departement("depGamix"); // Dummy object to return
 
-        Mockito.when(universiteService.addUniversite(universite)).thenReturn(savedUniversite);
-        Mockito.when(departementService.addDepartement(dep)).thenReturn(depSaved);
+        Mockito.when(universiteService.addUniversite(savedUniversite)).thenReturn(savedUniversite);
+        Mockito.when(departementService.addDepartement(depSaved)).thenReturn(depSaved);
         Mockito.when(universiteRepository.save(savedUniversite)).thenReturn(savedUniversite);
 
-        Universite resultUniversite = universiteService.addUniversite(universite);
-        Departement savedDep = departementService.addDepartement(dep);
+        Universite resultUniversite = universiteService.addUniversite(savedUniversite);
+        Departement savedDep = departementService.addDepartement(depSaved);
 
         Set<Departement> setDep = new HashSet<>();
         setDep.add(savedDep);
@@ -48,8 +46,8 @@ public class UniversiteServiceImpMockTest {
 
         Assertions.assertNotNull(resultUniversite.getDepartements(), "The university should have departments.");
 
-        Mockito.verify(universiteService).addUniversite(universite);
-        Mockito.verify(departementService).addDepartement(dep);
+        Mockito.verify(universiteService).addUniversite(savedUniversite);
+        Mockito.verify(departementService).addDepartement(depSaved);
         Mockito.verify(universiteRepository).save(resultUniversite);
     }
 }
