@@ -1,0 +1,27 @@
+services:
+  mysql:
+    image: skandernasri1/mysql  # Replace with your MySQL image
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_DATABASE: kaddem
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+    ports:
+      - "3306:3306"  # Expose MySQL port
+    networks:
+      - network
+  alpine-app:
+    image: skandernasri1/devopsproject  # Replace with your Alpine app image
+    depends_on:
+      - mysql  # Ensure MySQL is started before the app
+    ports:
+      - "8089:8089"  # Expose your app port
+    environment:
+      MYSQL_HOST: mysql  # Use service name as the host
+      MYSQL_PORT: 3306
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge
