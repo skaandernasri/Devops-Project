@@ -3,46 +3,56 @@ package tn.esprit.spring.kaddem;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import tn.esprit.spring.kaddem.entities.Departement;
 import tn.esprit.spring.kaddem.entities.Etudiant;
 import tn.esprit.spring.kaddem.entities.Option;
 import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
+import tn.esprit.spring.kaddem.services.DepartementServiceImpl;
+import tn.esprit.spring.kaddem.services.EtudiantServiceImpl;
 import tn.esprit.spring.kaddem.services.IDepartementService;
 import tn.esprit.spring.kaddem.services.IEtudiantService;
 
+import java.util.Arrays;
+import java.util.List;
+
 @ExtendWith(MockitoExtension .class)
 public class EtudiantServiceImpMockTest {
-    @Mock
-    IDepartementService departementService;
-    @Mock
-    IEtudiantService etudiantService;
+    @InjectMocks
+    DepartementServiceImpl departementService;
+    @InjectMocks
+    EtudiantServiceImpl etudiantService;
     @Mock
     private EtudiantRepository etudiantRepository;
     @Test
-    public void affecterEtudiantToDepartement() {
+    public void retrieveAllEtudiantsWithDepartements_MockTest() {
         Option opGamix = Option.GAMIX;
-        Etudiant etudiant = new Etudiant("Nasri", "Skander", opGamix);
         Departement dep = new Departement("depGamix");
-        Mockito.when(etudiantService.addEtudiant(etudiant)).thenReturn(etudiant);
-        Mockito.when(departementService.addDepartement(dep)).thenReturn(dep);
-        Mockito.when(etudiantRepository.save(etudiant)).thenReturn(etudiant);
-        Etudiant savedEtudiant = etudiantService.addEtudiant(etudiant);
-        Departement depSaved = departementService.addDepartement(dep);
-        savedEtudiant.setDepartement(depSaved);
-        savedEtudiant = etudiantRepository.save(savedEtudiant);
-        Assertions.assertNotNull(savedEtudiant.getDepartement(), "The student should be assigned to a department.");
-        Assertions.assertEquals(depSaved.getIdDepart(), savedEtudiant.getDepartement().getIdDepart());
-        departementService.deleteDepartement(depSaved.getIdDepart());
-        etudiantRepository.delete(savedEtudiant);
-        Mockito.verify(departementService).addDepartement(Mockito.any(Departement.class));
-        Mockito.verify(etudiantService).addEtudiant(Mockito.any(Etudiant.class));
-        Mockito.verify(etudiantRepository).delete(Mockito.any(Etudiant.class));
-        Mockito.verify(etudiantRepository).save(Mockito.any(Etudiant.class));
+        Etudiant etudiant1 = new Etudiant("Nasri", "Skander", opGamix);
+        etudiant1.setDepartement(dep);
+        Etudiant etudiant2 = new Etudiant("John", "Doe", Option.GAMIX);
+        etudiant2.setDepartement(dep);
+        etudiantService.addEtudiant(etudiant1);
+        etudiantService.addEtudiant(etudiant2);
+        when(etudiantRepository.findAllEtudiantsWithDepartements()).thenReturn(Arrays.asList(etudiant1, etudiant2));
 
+        List<Etudiant> etudiantsWithDepartements = etudiantService.retrieveAllEtudiantsWithDepartements();
 
+        assertNotNull(etudiantsWithDepartements, "The list should not be null");
+        assertEquals(2, etudiantsWithDepartements.size(), "Should retrieve two etudiants");
+
+        for (Etudiant etudiant : etudiantsWithDepartements) {
+            assertNotNull(etudiant.getDepartement(), "Each Etudiant should have a Departement assigned");
+            assertEquals(dep.getNomDepart(), etudiant.getDepartement().getNomDepart(), "Departement names should match");
+        }
+
+        verify(etudiantRepository, times(1)).findAllEtudiantsWithDepartements();
     }
 }

@@ -1,5 +1,6 @@
 package tn.esprit.spring.kaddem.services;
 
+import org.springframework.data.jpa.repository.Query;
 import tn.esprit.spring.kaddem.entities.Etudiant;
 
 import java.util.List;
@@ -20,4 +21,5 @@ public interface IEtudiantService {
     public Etudiant addAndAssignEtudiantToEquipeAndContract(Etudiant e, Integer idContrat, Integer idEquipe);
 
     public 	List<Etudiant> getEtudiantsByDepartement (Integer idDepartement);
+    public List<Etudiant> retrieveAllEtudiantsWithDepartements();
 }
