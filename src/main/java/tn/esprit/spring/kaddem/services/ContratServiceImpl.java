@@ -13,6 +13,8 @@ import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.ArrayList;
+
 
 @Slf4j
 @Service
@@ -67,8 +69,8 @@ ContratRepository contratRepository;
 
 	public void retrieveAndUpdateStatusContrat(){
 		List<Contrat>contrats=contratRepository.findAll();
-		List<Contrat>contrats15j=null;
-		List<Contrat>contratsAarchiver=null;
+		List<Contrat>contrats15j=new ArrayList<>();
+		List<Contrat>contratsAarchiver=new ArrayList<>();
 		for (Contrat contrat : contrats) {
 			Date dateSysteme = new Date();
 			if (contrat.getArchive()==false) {
