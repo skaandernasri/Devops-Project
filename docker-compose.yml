@@ -1,6 +1,6 @@
 services:
   mysql:
-    image: skandernasri1/mysql  # Replace with your MySQL image
+    image: mysql # Replace with your MySQL image
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ""
@@ -8,20 +8,24 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: yes
     ports:
       - "3306:3306"  # Expose MySQL port
-    networks:
-      - network
-  alpine-app:
-    image: skandernasri1/devopsproject  # Replace with your Alpine app image
+    volumes:
+      - db:/var/lib/mysql
+  app-kaddem:
+    image: skandernasri1/devopsproject:1.0.0  # Replace with your Alpine app image
     depends_on:
       - mysql  # Ensure MySQL is started before the app
+    restart: on-failure
     ports:
-      - "8089:8089"  # Expose your app port
+      - "8082:8082"  # Expose your app port
     environment:
-      MYSQL_HOST: mysql  # Use service name as the host
-      MYSQL_PORT: 3306
-    networks:
-      - network
-
-networks:
-  network:
-    driver: bridge
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url" : "jdbc:mysql://mysql:3306/kaddem\db?&createDatabaseIfNotExist=true",
+        "spring.datasource.username" : "root",
+        "spring.datasource.password" : "",
+        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5Dialect",
+        "spring.jpa.hibernate.ddl-auto" : "update"
+      }'
+    stdin_open: true
+    tty: true
+volumes:
+  db:
