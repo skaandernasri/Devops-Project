@@ -7,7 +7,7 @@ services:
       MYSQL_DATABASE: kaddem
       MYSQL_ALLOW_EMPTY_PASSWORD: yes
     ports:
-      - "3306:3306"  # Expose MySQL port
+      - "3307:3307"  # Expose MySQL port
     volumes:
       - db:/var/lib/mysql
   app-kaddem:
@@ -19,7 +19,7 @@ services:
       - "8082:8082"  # Expose your app port
     environment:
       SPRING_APPLICATION_JSON: '{
-        "spring.datasource.url" : "jdbc:mysql://mysql:3306/kaddem\db?&createDatabaseIfNotExist=true",
+        "spring.datasource.url" : "jdbc:mysql://mysql:3307/kaddem\db?&createDatabaseIfNotExist=true",
         "spring.datasource.username" : "root",
         "spring.datasource.password" : "",
         "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5Dialect",
