@@ -1,6 +1,5 @@
 package tn.esprit.spring.kaddem.services;
 
-import org.springframework.data.jpa.repository.Query;
 import tn.esprit.spring.kaddem.entities.Etudiant;
 
 import java.util.List;

@@ -1,6 +1,7 @@
 package tn.esprit.spring.kaddem.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Service
 public class EquipeServiceImpl implements IEquipeService{
+	@Autowired
 	EquipeRepository equipeRepository;
 
 
@@ -45,24 +47,8 @@ public class EquipeServiceImpl implements IEquipeService{
 		List<Equipe> equipes = (List<Equipe>) equipeRepository.findAll();
 		for (Equipe equipe : equipes) {
 			if ((equipe.getNiveau().equals(Niveau.JUNIOR)) || (equipe.getNiveau().equals(Niveau.SENIOR))) {
-				List<Etudiant> etudiants = (List<Etudiant>) equipe.getEtudiants();
-				Integer nbEtudiantsAvecContratsActifs=0;
-				for (Etudiant etudiant : etudiants) {
-					Set<Contrat> contrats = etudiant.getContrats();
-					//Set<Contrat> contratsActifs=null;
-					for (Contrat contrat : contrats) {
-						Date dateSysteme = new Date();
-						long difference_In_Time = dateSysteme.getTime() - contrat.getDateFinContrat().getTime();
-						long difference_In_Years = (difference_In_Time / (1000l * 60 * 60 * 24 * 365));
-						if ((contrat.getArchive() == false) && (difference_In_Years > 1)) {
-							//	contratsActifs.add(contrat);
-							nbEtudiantsAvecContratsActifs++;
-							break;
-						}
-						if (nbEtudiantsAvecContratsActifs >= 3) break;
-					}
-				}
-					if (nbEtudiantsAvecContratsActifs >= 3){
+				Integer nbEtudiantsAvecContratsActifs = getInteger(equipe);
+				if (nbEtudiantsAvecContratsActifs >= 3){
 						if (equipe.getNiveau().equals(Niveau.JUNIOR)){
 							equipe.setNiveau(Niveau.SENIOR);
 							equipeRepository.save(equipe);
@@ -78,5 +64,26 @@ public class EquipeServiceImpl implements IEquipeService{
 
 		}
 
+	}
+
+	private static Integer getInteger(Equipe equipe) {
+		List<Etudiant> etudiants = (List<Etudiant>) equipe.getEtudiants();
+		Integer nbEtudiantsAvecContratsActifs=0;
+		for (Etudiant etudiant : etudiants) {
+			Set<Contrat> contrats = etudiant.getContrats();
+			//Set<Contrat> contratsActifs=null;
+			for (Contrat contrat : contrats) {
+				Date dateSysteme = new Date();
+				long difference_In_Time = dateSysteme.getTime() - contrat.getDateFinContrat().getTime();
+				long difference_In_Years = (difference_In_Time / (1000l * 60 * 60 * 24 * 365));
+				if ((contrat.getArchive() == false) && (difference_In_Years > 1)) {
+					//	contratsActifs.add(contrat);
+					nbEtudiantsAvecContratsActifs++;
+					break;
+				}
+				if (nbEtudiantsAvecContratsActifs >= 3) break;
+			}
+		}
+		return nbEtudiantsAvecContratsActifs;
 	}
 }

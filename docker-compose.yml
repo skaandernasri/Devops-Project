@@ -13,7 +13,7 @@ services:
   app-kaddem:
     image: skandernasri1/devopsproject:1.0.0  # Replace with your Alpine app image
     depends_on:
-      - mysql  # Ensure MySQL is started before the app
+      - mysqldb  # Ensure MySQL is started before the app
     restart: on-failure
     ports:
       - "8082:8082"  # Expose your app port

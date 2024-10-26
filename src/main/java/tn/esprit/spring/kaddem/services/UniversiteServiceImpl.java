@@ -12,9 +12,9 @@ import java.util.Set;
 
 @Service
 public class UniversiteServiceImpl implements IUniversiteService{
-@Autowired
+    @Autowired
     UniversiteRepository universiteRepository;
-@Autowired
+    @Autowired
     DepartementRepository departementRepository;
     public UniversiteServiceImpl() {
         // TODO Auto-generated constructor stub
@@ -32,8 +32,7 @@ return  (universiteRepository.save(u));
     }
 
   public Universite retrieveUniversite (Integer idUniversite){
-Universite u = universiteRepository.findById(idUniversite).get();
-return  u;
+      return universiteRepository.findById(idUniversite).get();
     }
     public  void deleteUniversite(Integer idUniversite){
         universiteRepository.delete(retrieveUniversite(idUniversite));
@@ -42,12 +41,14 @@ return  u;
     public void assignUniversiteToDepartement(Integer idUniversite, Integer idDepartement){
         Universite u= universiteRepository.findById(idUniversite).orElse(null);
         Departement d= departementRepository.findById(idDepartement).orElse(null);
+        assert u != null;
         u.getDepartements().add(d);
         universiteRepository.save(u);
     }
 
     public Set<Departement> retrieveDepartementsByUniversite(Integer idUniversite){
 Universite u=universiteRepository.findById(idUniversite).orElse(null);
-return u.getDepartements();
+        assert u != null;
+        return u.getDepartements();
     }
 }

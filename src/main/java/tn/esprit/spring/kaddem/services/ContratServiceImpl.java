@@ -19,10 +19,10 @@ import java.util.Set;
 public class ContratServiceImpl implements IContratService{
 @Autowired
 ContratRepository contratRepository;
-@Autowired
+
 	EtudiantRepository etudiantRepository;
 	public List<Contrat> retrieveAllContrats(){
-		return (List<Contrat>) contratRepository.findAll();
+		return contratRepository.findAll();
 	}
 
 	public Contrat updateContrat (Contrat  ce){
@@ -48,10 +48,10 @@ ContratRepository contratRepository;
 		Etudiant e=etudiantRepository.findByNomEAndPrenomE(nomE, prenomE);
 		Contrat ce=contratRepository.findByIdContrat(idContrat);
 		Set<Contrat> contrats= e.getContrats();
-		Integer nbContratssActifs=0;
-		if (contrats.size()!=0) {
+		int nbContratssActifs=0;
+		if (!contrats.isEmpty()) {
 			for (Contrat contrat : contrats) {
-				if (((contrat.getArchive())!=null)&& ((contrat.getArchive())!=false))  {
+				if (((contrat.getArchive())!=null)&& contrat.getArchive() ) {
 					nbContratssActifs++;
 				}
 			}
@@ -71,7 +71,7 @@ ContratRepository contratRepository;
 		List<Contrat>contratsAarchiver=null;
 		for (Contrat contrat : contrats) {
 			Date dateSysteme = new Date();
-			if (contrat.getArchive()==false) {
+			if (!contrat.getArchive()) {
 				long difference_In_Time = dateSysteme.getTime() - contrat.getDateFinContrat().getTime();
 				long difference_In_Days = (difference_In_Time / (1000 * 60 * 60 * 24)) % 365;
 				if (difference_In_Days==15){

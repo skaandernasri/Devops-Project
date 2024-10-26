@@ -13,13 +13,11 @@ import tn.esprit.spring.kaddem.repositories.EtudiantRepository;
 import tn.esprit.spring.kaddem.services.IDepartementService;
 import tn.esprit.spring.kaddem.services.IEtudiantService;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class EtudiantServiceImpTest {
+ class EtudiantServiceImpTest {
     @Autowired
     IDepartementService departementService;
     @Autowired
@@ -28,7 +26,7 @@ public class EtudiantServiceImpTest {
     private EtudiantRepository etudiantRepository;
 
     @Test
-    public void retrieveAllEtudiantsWithDepartements() {
+     void retrieveAllEtudiantsWithDepartements() {
         Option opGamix = Option.GAMIX;
         Etudiant etudiant1 = new Etudiant("Nasri", "Skander", opGamix);
         Etudiant etudiant2 = new Etudiant("John", "Doe", opGamix);
