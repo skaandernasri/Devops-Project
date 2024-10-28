@@ -13,7 +13,7 @@ services:
     volumes:
       - db:/var/lib/mysql
 
-  app-timesheet:
+  app-kaddem:
     depends_on:
       - mysqlDb
     image: medhioub12/kaddem-devops:1.0.0
