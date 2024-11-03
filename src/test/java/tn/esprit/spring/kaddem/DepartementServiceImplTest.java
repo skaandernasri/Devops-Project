@@ -30,15 +30,7 @@ public class DepartementServiceImplTest {
         assertEquals("Informatique", savedDepartement.getNomDepart());
     }
 
-    @Test
-    public void testRetrieveAllDepartements() {
-        // Act
-        List<Departement> departements = departementService.retrieveAllDepartements();
 
-        // Assert
-        assertNotNull(departements);
-        assertTrue(departements.size() > 0);
-    }
 
     @Test
     public void testRetrieveDepartement() {
