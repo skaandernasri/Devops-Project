@@ -64,10 +64,9 @@
 
     </dependencies>
 
-    <distributionManagement>
+     <distributionManagement>
         <repository>
-            <id>deploymentRepo</id>
-            <name>Nexus Repository</name>
+            <id>deploymentRepo</id> <!-- Ce id doit correspondre à celui de settings.xml -->
             <url>http://192.168.50.4:8081/repository/maven-repo/</url>
         </repository>
     </distributionManagement>
