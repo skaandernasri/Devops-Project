@@ -49,10 +49,6 @@
     </dependencies>
 
     <distributionManagement>
-        <repository>
-            <id>deploymentRepo</id>
-            <name>Nexus Repository</name>
-        </repository>
     </distributionManagement>
 
     <build>
