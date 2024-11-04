@@ -1,4 +1,4 @@
-package tn.esprit.spring.kaddem.services;
+package tn.esprit.spring.kaddem;
 
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import tn.esprit.spring.kaddem.entities.Departement;
 import tn.esprit.spring.kaddem.repositories.DepartementRepository;
+import tn.esprit.spring.kaddem.services.DepartementServiceImpl;
 
 public class DepartementServiceImplTest {
 
