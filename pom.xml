@@ -47,10 +47,6 @@
             <version>1.6.9</version>
         </dependency>
     </dependencies>
-
-    <distributionManagement>
-    </distributionManagement>
-
     <build>
         <plugins>
             <plugin>
