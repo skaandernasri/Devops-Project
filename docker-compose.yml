@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  mysqldb:
+    image: mysql:8.3
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=0000
+      - MYSQL_DATABASE=kaddem
+    ports:
+      - 3306:3306
+    volumes:
+      - db:/var/lib/mysql
+  app-kaddem:
+    depends_on:
+      - mysqldb
+    image: alaefendri/kaddem-af:1.0.0
+    restart: on-failure
+    ports:
+      - 8089:8089
+    environment:
+      SPRING_APPLICATION_JSON: '{
+        "spring.datasource.url": "jdbc:mysql://mysqldb:3306/kaddemdb?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+        "spring.datasource.username" : "root",
+        "spring.datasource.password" : "0000",
+        "spring.jpa.hibernate.ddl-auto" : "update"
+      }'
+      stdin-open: true
+      tty: true
+volumes:
+  db:
