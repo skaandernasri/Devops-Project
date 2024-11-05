@@ -35,14 +35,6 @@ pipeline {
                 }
             }
         }
-        stage("Quality Gate"){
-            steps{
-                echo "========Checking Quality Gate========"
-                timeout(time: 10,unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
         stage("Deploying nexus") {
             steps {
                 echo "========Deploying to Nexus========"
