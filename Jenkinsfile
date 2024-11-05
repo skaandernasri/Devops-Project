@@ -4,8 +4,8 @@ pipeline {
         stage("cloning") {
             steps {
                 echo "========cloning with git========"
-                git url: "git@github.com:Molka-Kbaier/5arctic5-G3-StationSki.git",
-                    branch: "TamimHmizi_5Arctic5-G3",
+                git url: "git@github.com:skaandernasri/Devops-Project.git",
+                    branch: "SayariMohamed-BI3-G2",
                     credentialsId:"github"
             }
         }
@@ -51,14 +51,14 @@ pipeline {
         }
         stage("Building image"){
             steps{
-                sh "docker build -t tamimhmizi/tamimhmizi_g3_stationski . "
+                sh "docker build -t sayari076/sayari076_kaddem . "
             }
         }
         stage("Pushing to DockerHub") {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
-                    sh "docker push tamimhmizi/tamimhmizi_g3_stationski"
+                    sh "docker push sayari076/sayari076_kaddem"
                 }
             }
         }
