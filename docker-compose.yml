@@ -14,7 +14,7 @@ services:
   app-kaddem:
     depends_on:
       - mysqldb
-    image: alaefendri/kaddem-af:1.0.0
+    image: alaefendri/kaddem-0.0.1-20241105.154000-1
     restart: on-failure
     ports:
       - 8089:8089
