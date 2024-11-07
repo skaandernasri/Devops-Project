@@ -19,16 +19,16 @@ services:
     image: medhioub12/kaddem-devops:1.0.0
     restart: on-failure
     ports:
-      - "8082:8082"
+      - "8082:8089"
     environment:
-      SPRING_APPLICATION_JSON: >
+      SPRING_APPLICATION_JSON: '
         {
           "spring.datasource.url": "jdbc:mysql://mysqlDb:3306/kaddem?createDatabaseIfNotExist=true",
           "spring.datasource.username": "root",
           "spring.datasource.password": "",
           "spring.jpa.properties.hibernate.dialect": "org.hibernate.dialect.MySQL5InnoDBDialect",
           "spring.jpa.hibernate.ddl-auto": "update"
-        }
+        }'
     stdin_open: true
     tty: true
 
