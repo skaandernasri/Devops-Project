@@ -7,6 +7,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
 import tn.esprit.spring.kaddem.entities.Universite;
 import tn.esprit.spring.kaddem.services.IUniversiteService;
 
@@ -36,26 +38,33 @@ public class UniversiteServicelmpTest {
 
         // Assert
         assertNotNull(universites);
-        assertTrue(universites.size() > 0);
+        assertTrue(universites.size() > 0, "No universities found");
     }
 
     @Test
     public void testRetrieveUniversite() {
+        // Arrange
+        Universite u = new Universite("Université de Lyon");
+        Universite savedUniversite = universiteService.addUniversite(u);
+        Integer id = savedUniversite.getIdUniv();
+
         // Act
-        Universite universite = universiteService.retrieveUniversite(1);
+        Universite universite = universiteService.retrieveUniversite(id);
 
         // Assert
         assertNotNull(universite);
-        assertEquals(1, universite.getIdUniv());
+        assertEquals(id, universite.getIdUniv());
     }
 
     @Test
     public void testUpdateUniversite() {
         // Arrange
-        Universite u = new Universite(1, "Université de Lyon");
+        Universite u = new Universite("Université de Paris");
+        Universite savedUniversite = universiteService.addUniversite(u);
+        savedUniversite.setNomUniv("Université de Lyon");
 
         // Act
-        Universite updatedUniversite = universiteService.updateUniversite(u);
+        Universite updatedUniversite = universiteService.updateUniversite(savedUniversite);
 
         // Assert
         assertNotNull(updatedUniversite);
@@ -71,11 +80,8 @@ public class UniversiteServicelmpTest {
 
         // Act
         universiteService.deleteUniversite(idToDelete);
-        Universite deletedUniversite = universiteService.retrieveUniversite(idToDelete);
 
         // Assert
-        assertNull(deletedUniversite, "L'université n'a pas été supprimée correctement.");
+        assertNull(universiteService.retrieveUniversite(idToDelete), "The university was not deleted properly.");
     }
-
-
 }

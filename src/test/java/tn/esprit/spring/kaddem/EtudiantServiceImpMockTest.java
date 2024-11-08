@@ -31,8 +31,6 @@ import java.util.*;
     private DepartementRepository departementRepository;
 
     @InjectMocks
-    DepartementServiceImpl departementService;
-    @InjectMocks
     EtudiantServiceImpl etudiantService;
     @Mock
     private EtudiantRepository etudiantRepository;

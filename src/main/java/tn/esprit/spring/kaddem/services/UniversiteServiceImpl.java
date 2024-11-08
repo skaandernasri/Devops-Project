@@ -32,7 +32,7 @@ return  (universiteRepository.save(u));
     }
 
   public Universite retrieveUniversite (Integer idUniversite){
-Universite u = universiteRepository.findById(idUniversite).get();
+Universite u = universiteRepository.findById(idUniversite).orElse(null);
 return  u;
     }
     public  void deleteUniversite(Integer idUniversite){
