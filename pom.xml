@@ -46,11 +46,8 @@
         <repository>
             <id>deploymentRepo</id>
             <name>Nexus Repository</name>
-<<<<<<< HEAD
             <url>http://192.168.33.10:8081/repository/maven-releases/</url>
-=======
-            <url>http://192.168.194.129:8081/repository/maven-releases/</url>
->>>>>>> NasriSkander-5BI3-G2_bugfix
+
         </repository>
     </distributionManagement>
     <dependencies>
@@ -80,10 +77,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-<<<<<<< HEAD
 
-=======
->>>>>>> NasriSkander-5BI3-G2_bugfix
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
