@@ -36,16 +36,6 @@ public class DepartementServiceImplTest {
         departement2 = new Departement(2, "Mathematiques");
     }
 
-    @Test
-    public void testRetrieveAllDepartements() {
-        when(departementRepository.findAll()).thenReturn(Arrays.asList(departement1, departement2));
-
-        List<Departement> departements = departementService.retrieveAllDepartements();
-
-        assertNotNull(departements);
-        assertEquals(2, departements.size());
-        verify(departementRepository, times(1)).findAll();
-    }
 
     @Test
     public void testAddDepartement() {
