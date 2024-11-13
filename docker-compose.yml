@@ -11,7 +11,7 @@ services:
     volumes:
       - db:/var/lib/mysql
   app-kaddem:
-    image: skandernasri1/devopsproject:1.0.0  # Replace with your Alpine app image
+    image: kaddem/devopsproject:1.0.0  # Replace with your Alpine app image
     depends_on:
       - mysqldb  # Ensure MySQL is started before the app
     restart: on-failure
