@@ -10,7 +10,7 @@ import java.util.Set;
 import javax.persistence.*;
 
 
-@SuppressWarnings("SpellCheckingInspection")
+//@SuppressWarnings("SpellCheckingInspection")
 @Entity
 public class Etudiant implements Serializable{
     @Id
