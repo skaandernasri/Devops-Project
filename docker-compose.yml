@@ -7,30 +7,21 @@ services:
       - "3307:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=achatdb
+      - MYSQL_DATABASE=kademdb
     networks:
       - my-network
 
   spring-boot-app:
-    image: ikbel436/achat
+    image: azaiezallela/allelaproject
     container_name: docker-compose-spring-boot
     ports:
       - "8088:8089"
     depends_on:
       - mysql-db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://docker-compose-mysql-db:3306/achatdb?&createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+      - SPRING_DATASOURCE_URL=jdbc:mysql://docker-compose-mysql-db:3306/kademdb?&createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
-    networks:
-      - my-network
-  angular-app:
-    image: ikbel436/frontachat
-    container_name: docker-compose-angular-app
-    ports:
-      - "4200:80"
-    depends_on:
-      - spring-boot-app
     networks:
       - my-network
 
