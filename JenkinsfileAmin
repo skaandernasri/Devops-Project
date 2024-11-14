@@ -1,0 +1,129 @@
+pipeline {
+    agent any
+
+    tools {
+        // Specify the Maven installation in Jenkins
+        maven 'M2_HOME'  // Change to your Maven installation name
+    }
+
+    environment {
+        GIT_REPO = 'https://github.com/skaandernasri/Devops-Project.git'
+        BRANCH = 'master'
+        SONAR_TOKEN = credentials('sonar-token')
+        DOCKER_USERNAME='medhioub12'
+        DOCKER_PASSWORD='Amin12341'
+
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the code from the Git repository
+                git branch: "${BRANCH}", url: "${GIT_REPO}"
+            }
+        }
+        stage('Maven clean') {
+            steps {
+                script {
+                    sh 'mvn clean' 
+                }
+            }
+        }
+
+
+        stage('Maven compile and test') {
+            steps {
+                // Execute the Maven build and run unit tests
+                script {
+
+                    sh 'mvn clean package'
+                }
+            }
+        }
+        stage('Maven SonarQube') {
+            steps {
+          
+                script {
+                     sh 'mvn sonar:sonar -Dsonar.token=$SONAR_TOKEN'
+                }
+            }
+        }
+         stage('Nexus') {
+            steps {
+ script {
+                     sh 'mvn deploy -DskipTests '
+                }
+            }
+        }
+        stage('Building image') {
+            steps {
+                sh 'docker build -t kaddem/devopsproject:1.0.0 .'
+                
+            }
+            
+        }
+        stage('Deploy image') 
+        {
+            steps 
+            {
+                script 
+                {
+                   
+                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+                        
+                    
+                    sh 'docker push medhioub12/kaddem-devops:1.0.0 '
+                    
+                }
+                
+            }
+            
+        }
+        stage('Docker compose') {
+            steps
+            {
+                script 
+                {
+
+                    sh 'docker compose up -d' 
+                    
+                }
+                
+            }
+            
+        }
+
+      
+
+     
+    }
+
+    post { 
+    always { 
+        script { 
+            def jobName = env.JOB_NAME 
+            def buildNumber = env.BUILD_NUMBER 
+            def pipelineStatus = currentBuild.result ?: 'UNKNOWN'
+
+            def body = """ 
+                <html> 
+                <body> 
+                    <h2>${jobName} - Build ${buildNumber}</h2> 
+                    <h3>Pipeline Status: ${pipelineStatus.toUpperCase()}</h3>
+                    <p>Check the <a href="${env.BUILD_URL}">console output</a>.</p>
+                </body> 
+                </html> 
+            """
+
+            emailext ( 
+                subject: "${jobName} - Build ${buildNumber} - ${pipelineStatus.toUpperCase()}", 
+                body: body, 
+                mimeType: 'text/html', // Ensure the body is treated as HTML
+                to: 'aminmedhioub99@gmail.com', 
+                from: 'aminmedhioub99@gmail.com', 
+                replyTo: 'aminmedhioub99@gmail.com'
+            ) 
+        } 
+    } 
+}
+}
