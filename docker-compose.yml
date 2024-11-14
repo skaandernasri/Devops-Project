@@ -6,7 +6,7 @@ services:
     restart: unless-stopped
     environment:
       - MYSQL_ROOT_PASSWORD=0000
-      - MYSQL_DATABASE=kaddem
+      - MYSQL_DATABASE=kaddemdb
     ports:
       - 3306:3306
     volumes:
